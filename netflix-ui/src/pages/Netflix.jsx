@@ -3,18 +3,30 @@ import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import backgroundImage from "../assets/home.jpg";
 import MovieLogo from "../assets/homeTitle.webp";
-
+import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../utils/firebase-config";
 import { useNavigate } from "react-router-dom";
 import { FaPlay } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { getGenres ,fetchMovies} from "../store";
+
 function Netflix() {
   const [isScrolled, setIsScrolled] = useState(false);
-
+  const movies = useSelector((state) => state.netflix.movies);
+  const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getGenres());
+  }, []);
 
+  useEffect(() => {
+    if (genresLoaded) {
+      dispatch(fetchMovies({  type: "all" }));
+    }
+  }, [genresLoaded]);
 
   onAuthStateChanged(firebaseAuth, (currentUser) => {
     if (!currentUser) navigate("/login");
