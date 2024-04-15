@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { FaPlay } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { getGenres ,fetchMovies} from "../store";
+import Slider from "../components/Slider";
 
 function Netflix() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -65,6 +66,7 @@ function Netflix() {
           </div>
         </div>
       </div>
+      <Slider movies = {movies}/>
     </Container>
   );
 }
